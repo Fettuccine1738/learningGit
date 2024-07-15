@@ -1,0 +1,41 @@
+import java.util.ArrayList;
+
+public class Order {
+	ArrayList<String> orders = new ArrayList<>();
+	private final int CAPACITY = 1;
+
+	public syncronized void writeOrder(String s) {
+
+		try {
+			while (orders.size == CAPACITY) wait();
+			orders.add(s);
+			notify();
+
+		} catch(InterruptedException e) {
+
+
+			Thread.currentThread().interrupt();
+			}
+
+	}
+
+	
+	public syncronized String readOrder() {
+		String s = "";
+		try {
+			while (orders.isEmpty()) wait();
+			s = orders.remove(orders.size - CAPACITY);
+
+			notify();
+			return s;	
+
+		} catch(InterruptedException e) {
+
+
+			Thread.currentThread().interrupt();
+			}
+
+
+
+}
+
